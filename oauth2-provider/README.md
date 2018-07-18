@@ -36,3 +36,9 @@ Make sure you have [Node.js](http://nodejs.org/) lts/carbon and [express-generat
    run the app:
      $ DEBUG=oauth2-provider:* npm start
 ```
+
+### Add libs 
+
+```bash
+➜  oauth2-provider git:(master) ✗ npm i body-parser express-session oauth2orize
+```
