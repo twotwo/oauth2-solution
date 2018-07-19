@@ -2,15 +2,15 @@
 
 const passport = require('passport');
 const login = require('connect-ensure-login');
-const context = process.env.CONTEXT || "/"
+const context = process.env.CONTEXT || ""
 
 module.exports.index = (request, response) => response.send('OAuth 2.0 Server');
 
 module.exports.loginForm = (request, response) => response.render('login');
 
 module.exports.login = passport.authenticate("local", {
-  successReturnToOrRedirect: context,
-  failureRedirect: context+"/login"
+  successReturnToOrRedirect: context + "/account",
+  failureRedirect: context + "/login"
 })
 
 module.exports.logout = (request, response) => {
@@ -19,6 +19,6 @@ module.exports.logout = (request, response) => {
 };
 
 module.exports.account = [
-  login.ensureLoggedIn(),
-  (request, response) => response.render('account', { user: request.user }),
-];
+  login.ensureLoggedIn(context + "/login"),
+  (request, response) => response.render("account", { user: request.user })
+]

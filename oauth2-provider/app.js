@@ -57,7 +57,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // 3. set context with CONTEXT=...
-const context = process.env.CONTEXT || "/"
+const context = process.env.CONTEXT || ""
 debug("process.env.CONTEXT=%s", context)
 app.set("context", context)
 // 3.1 set context local for views

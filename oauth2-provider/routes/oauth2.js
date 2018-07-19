@@ -6,6 +6,8 @@ const login = require("connect-ensure-login")
 const db = require("../db")
 const utils = require("../utils")
 
+const context = process.env.CONTEXT || ""
+
 // Create OAuth 2.0 server
 const server = oauth2orize.createServer()
 
@@ -163,7 +165,7 @@ server.exchange(
 // first, and rendering the `dialog` view.
 
 module.exports.authorization = [
-  login.ensureLoggedIn(),
+  login.ensureLoggedIn(context + "/login"),
   server.authorization(
     (clientId, redirectUri, done) => {
       db.clients.findByClientId(clientId, (error, client) => {
@@ -210,7 +212,7 @@ module.exports.authorization = [
 // client, the above grant middleware configured above will be invoked to send
 // a response.
 
-exports.decision = [login.ensureLoggedIn(), server.decision()]
+exports.decision = [login.ensureLoggedIn(context + "/login"), server.decision()]
 
 // Token endpoint.
 //
