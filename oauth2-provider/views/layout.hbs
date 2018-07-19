@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='{{context}}/stylesheets/style.css' />
-  </head>
-  <body>
-    {{{body}}}
-  </body>
+
+<head>
+  <title>{{title}}</title>
+  <!-- Needed for mobile sites to work -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Style sheets -->
+  <link rel="stylesheet" type="text/css" href="{{context}}/stylesheets/pure-min.css">
+  <link rel="stylesheet" type="text/css" href="{{context}}/stylesheets/base.css">
+</head>
+
+<body>
+  {{{body}}}
+</body>
+
 </html>
