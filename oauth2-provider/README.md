@@ -44,9 +44,26 @@ Make sure you have [Node.js](http://nodejs.org/) lts/carbon and [express-generat
 ➜  oauth2-provider git:(master) ✗ npm i --save-dev nodemon validate-commit-msg
 ```
 
+```bash
+# libs for OAuth2 Server
+➜  oauth2-provider git:(master) ✗ npm i passport passport-local passport-http passport-http-bearer passport-oauth2-client-password connect-ensure-login
+```
+
 ## Run Service
 
 ```bash
 ➜  oauth2-provider git:(master) ✗ npm i # install libs
 ➜  oauth2-provider git:(master) ✗ npm run dev # run in development mode
+```
+
+### Grant Type: Authorization Code
+
+```bash
+http://localhost:8080/oauth2/dialog/authorize?redirect_uri=https://oauth2orizerecipes.herokuapp.com&response_type=code&client_id=abc123&scope=offline_access
+```
+
+### Grant Type: Implicit
+
+```bash
+http://localhost:8080/oauth2/dialog/authorize?redirect_uri=https://oauth2orizerecipes.herokuapp.com&response_type=token&client_id=abc123
 ```

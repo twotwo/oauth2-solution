@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "connect-ensure-login": "^0.1.1",
     "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "~4.16.0",
@@ -15,10 +16,45 @@
     "hbs": "~4.0.1",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
-    "oauth2orize": "^1.11.0"
+    "oauth2orize": "^1.11.0",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport-oauth2-client-password": "^0.1.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.3",
     "validate-commit-msg": "^2.14.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  },
+  "config": {
+    "validate-commit-msg": {
+      "doc": "https://github.com/conventional-changelog-archived-repos/validate-commit-msg",
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "build",
+        "ci",
+        "chore",
+        "revert"
+      ],
+      "scope": {
+        "required": false,
+        "allowed": [
+          "*"
+        ],
+        "validate": false,
+        "multiple": false
+      }
+    }
   }
 }
