@@ -40,5 +40,13 @@ Make sure you have [Node.js](http://nodejs.org/) lts/carbon and [express-generat
 ### Add libs 
 
 ```bash
-➜  oauth2-provider git:(master) ✗ npm i body-parser express-session oauth2orize
+➜  oauth2-provider git:(master) ✗ npm i cross-env body-parser express-session oauth2orize
+➜  oauth2-provider git:(master) ✗ npm i --save-dev nodemon validate-commit-msg
+```
+
+## Run Service
+
+```bash
+➜  oauth2-provider git:(master) ✗ npm i # install libs
+➜  oauth2-provider git:(master) ✗ npm run dev # run in development mode
 ```
