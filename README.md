@@ -15,6 +15,23 @@
 
 ## Code
 
+[commitlint](https://www.npmjs.com/package/commitlint)
+
+```bash
+# Install commitlint cli and angular config
+npm install --save-dev @commitlint/{config-conventional,cli}
+# For Windows:
+npm install --save-dev @commitlint/config-conventional @commitlint/cli
+
+# Configure commitlint to use angular config
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+
+# Check Commit message
+➜  oauth2-solution git:(master) ✗ echo "docs: tt" |npx commitlint
+⧗   input: docs: tt
+✔   found 0 problems, 0 warnings
+```
+
 ### oauth2-provider
 
 An express server provides OAuth2 serivce
@@ -24,7 +41,6 @@ Libs in this project:
 * express
 * express-session
 * body-parser
-* [commitlint](https://www.npmjs.com/package/commitlint)
 * oauth2orize
 * [passport](https://www.npmjs.com/package/passport) Express-compatible authentication middleware
 * [connect-ensure-login](https://www.npmjs.com/package/connect-ensure-login)
