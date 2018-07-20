@@ -22,7 +22,10 @@ Libs in this project:
 * express
 * express-session
 * body-parser
+* [commitlint](https://www.npmjs.com/package/commitlint)
 * oauth2orize
+* [passport](https://www.npmjs.com/package/passport) Express-compatible authentication middleware
+* [connect-ensure-login](https://www.npmjs.com/package/connect-ensure-login)
 * sequelize
 
 ### oauth2-consumer
