@@ -24,37 +24,10 @@
     "passport-oauth2-client-password": "^0.1.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3",
-    "validate-commit-msg": "^2.14.0"
+    "nodemon": "^1.18.3"
   },
   "jest": {
     "testEnvironment": "node",
     "verbose": true
-  },
-  "config": {
-    "validate-commit-msg": {
-      "doc": "https://github.com/conventional-changelog-archived-repos/validate-commit-msg",
-      "types": [
-        "feat",
-        "fix",
-        "docs",
-        "style",
-        "refactor",
-        "perf",
-        "test",
-        "build",
-        "ci",
-        "chore",
-        "revert"
-      ],
-      "scope": {
-        "required": false,
-        "allowed": [
-          "*"
-        ],
-        "validate": false,
-        "multiple": false
-      }
-    }
   }
 }

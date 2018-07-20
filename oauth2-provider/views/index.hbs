@@ -1,11 +1,51 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<!-- Style sheets -->
+<link rel="stylesheet" type="text/css" href="{{context}}/stylesheets/index-modules.css">
+<script type="text/javascript" src="{{context}}/javascripts/jquery.min.js"></script>
+
+<!-- Main code screen with no URL fragments -->
+<div id="main">
+  <h1>{{title}}</h1>
+
+  <p>
+    <a href="{{context}}/account">Account</a>
+  </p>
 
 
-<p>
-  <a href="{{context}}/dialog/authorize?redirect_uri=https://oauth2orizerecipes.herokuapp.com&response_type=code&client_id=abc123&scope=offline_access">Grant Type: Authorization Code</a>
-</p>
 
-<p>
-  <a href="{{context}}/account">Account</a>
-</p>
+  <!-- Authorization Code grant -->
+
+  <h2>
+    <a href="http://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code</a>
+    <br/>
+  </h2>
+  The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential
+  clients. Click the link below to begin the grant type.
+  <a id="authcode" href="{{context}}/dialog/authorize?redirect_uri=http://localhost:8080{{context}}&response_type=code&client_id=abc123&scope=offline_access">
+    <pre>
+  <span class="hostname">http://localhost:3000{{context}}</span>/dialog/authorize?
+  redirect_uri=<span class="hostname">http://localhost:3000{{context}}</span>&
+  response_type=code&
+  client_id=abc123&
+  scope=offline_access
+                </pre>
+  </a>
+
+  <!-- Implicit grant -->
+  <p>
+
+    <h2>
+      <a href="http://tools.ietf.org/html/rfc6749#section-4.2">Implicit</a>
+      <br/>
+    </h2>
+    The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized
+    for public clients known to operate a particular redirection URI. Click the link below to begin the grant type.
+    <a id="implicit" href="">
+      <pre>
+  <span class="hostname">{{context}}</span>/dialog/authorize?
+  redirect_uri=<span class="hostname">http://localhost:8080{{context}}</span>&
+  response_type=token&
+  client_id=abc123
+            </pre>
+    </a>
+
+</div>
