@@ -12,28 +12,6 @@ const context = process.env.CONTEXT || ""
 // Create OAuth 2.0 server
 const server = oauth2orize.createServer()
 
-// Register serialialization and deserialization functions.
-//
-// When a client redirects a user to user authorization endpoint, an
-// authorization transaction is initiated. To complete the transaction, the
-// user must authenticate and approve the authorization request. Because this
-// may involve multiple HTTP request/response exchanges, the transaction is
-// stored in the session.
-//
-// An application must supply serialization functions, which determine how the
-// client object is serialized into the session. Typically this will be a
-// simple matter of serializing the client's ID, and deserializing by finding
-// the client by ID from the database.
-
-server.serializeClient((client, done) => done(null, client.id))
-
-server.deserializeClient((id, done) => {
-  db.clients.findById(id, (error, client) => {
-    if (error) return done(error)
-    return done(null, client)
-  })
-})
-
 // Register supported grant types.
 //
 // OAuth 2.0 specifies a framework that allows users to grant client
@@ -41,17 +19,20 @@ server.deserializeClient((id, done) => {
 // through a process of the user granting access, and the client exchanging
 // the grant for an access token.
 
-// Grant authorization codes. The callback takes the `client` requesting
-// authorization, the `redirectUri` (which is used as a verifier in the
-// subsequent exchange), the authenticated `user` granting access, and
-// their response, which contains approved scope, duration, etc. as parsed by
-// the application. The application issues a code, which is bound to these
-// values, and will be exchanged for an access token.
-
+/**
+ * Grant authorization codes
+ *
+ * The callback takes the `client` requesting authorization, the `redirectURI`
+ * (which is used as a verifier in the subsequent exchange), the authenticated
+ * `user` granting access, and their response, which contains approved scope,
+ * duration, etc. as parsed by the application.  The application issues a code,
+ * which is bound to these values, and will be exchanged for an access token.
+ */
 server.grant(
   oauth2orize.grant.code((client, redirectUri, user, ares, done) => {
     const code = utils.getUid(16)
     db.authorizationCodes.save(code, client.id, redirectUri, user.id, error => {
+      debug("server.grant save code=%s", code)
       if (error) return done(error)
       return done(null, code)
     })
@@ -74,17 +55,22 @@ server.grant(
   })
 )
 
-// Exchange authorization codes for access tokens. The callback accepts the
-// `client`, which is exchanging `code` and any `redirectUri` from the
-// authorization request for verification. If these values are validated, the
-// application issues an access token on behalf of the user who authorized the
-// code.
-
+/**
+ * Exchange authorization codes for access tokens.
+ *
+ * The callback accepts the `client`, which is exchanging `code` and any
+ * `redirectURI` from the authorization request for verification.  If these values
+ * are validated, the application issues an access token on behalf of the user who
+ * authorized the code.
+ */
 server.exchange(
   oauth2orize.exchange.code((client, code, redirectUri, done) => {
+    debug("server.exchange1: code2token")
     db.authorizationCodes.find(code, (error, authCode) => {
+      debug("find code=%s", code)
       if (error) return done(error)
       if (client.id !== authCode.clientId) return done(null, false)
+      debug("redirectUri =%s, authCode.redirectUri=%s", redirectUri, authCode.redirectUri)
       if (redirectUri !== authCode.redirectUri) return done(null, false)
 
       const token = utils.getUid(256)
@@ -96,13 +82,16 @@ server.exchange(
   })
 )
 
-// Exchange user id and password for access tokens. The callback accepts the
-// `client`, which is exchanging the user's name and password from the
-// authorization request for verification. If these values are validated, the
-// application issues an access token on behalf of the user who authorized the code.
-
+/**
+ * Exchange user id and password for access tokens.
+ *
+ * The callback accepts the `client`, which is exchanging the user's name and password
+ * from the token request for verification. If these values are validated, the
+ * application issues an access token on behalf of the user who authorized the code.
+ */
 server.exchange(
   oauth2orize.exchange.password((client, username, password, scope, done) => {
+    debug("server.exchange2: password2token")
     // Validate the client
     db.clients.findByClientId(client.clientId, (error, localClient) => {
       if (error) return done(error)
@@ -125,29 +114,47 @@ server.exchange(
   })
 )
 
-// Exchange the client id and password/secret for an access token. The callback accepts the
-// `client`, which is exchanging the client's id and password/secret from the
-// authorization request for verification. If these values are validated, the
-// application issues an access token on behalf of the client who authorized the code.
-
+/**
+ * Exchange the client id and password/secret for an access token.
+ *
+ * The callback accepts the `client`, which is exchanging the client's id and
+ * password/secret from the token request for verification. If these values are validated, the
+ * application issues an access token on behalf of the client who authorized the code.
+ */
 server.exchange(
   oauth2orize.exchange.clientCredentials((client, scope, done) => {
-    // Validate the client
-    db.clients.findByClientId(client.clientId, (error, localClient) => {
+    debug("server.exchange3: client2token")
+    // // Validate the client
+    // db.clients.findByClientId(client.clientId, (error, localClient) => {
+    //   if (error) return done(error)
+    //   if (!localClient) return done(null, false)
+    //   if (localClient.clientSecret !== client.clientSecret)
+    //     return done(null, false)
+    //   // Everything validated, return the token
+    //   const token = utils.getUid(256)
+    //   // Pass in a null for user id since there is no user with this grant type
+    //   db.accessTokens.save(token, null, client.clientId, error => {
+    //     if (error) return done(error)
+    //     return done(null, token)
+    //   })
+    // })
+    
+    const token = utils.getUid(256)
+    // Pass in a null for user id since there is no user with this grant type
+    db.accessTokens.save(token, null, client.clientId, error => {
       if (error) return done(error)
-      if (!localClient) return done(null, false)
-      if (localClient.clientSecret !== client.clientSecret)
-        return done(null, false)
-      // Everything validated, return the token
-      const token = utils.getUid(256)
-      // Pass in a null for user id since there is no user with this grant type
-      db.accessTokens.save(token, null, client.clientId, error => {
-        if (error) return done(error)
-        return done(null, token)
-      })
+      return done(null, token)
     })
   })
 )
+
+/**
+ * Exchange the refresh token for an access token.
+ *
+ * The callback accepts the `client`, which is exchanging the client's id from the token
+ * request for verification.  If this value is validated, the application issues an access
+ * token on behalf of the client who authorized the code
+ */
 
 // User authorization endpoint.
 //
@@ -229,3 +236,25 @@ exports.token = [
   server.token(),
   server.errorHandler()
 ]
+
+// Register serialialization and deserialization functions.
+//
+// When a client redirects a user to user authorization endpoint, an
+// authorization transaction is initiated. To complete the transaction, the
+// user must authenticate and approve the authorization request. Because this
+// may involve multiple HTTP request/response exchanges, the transaction is
+// stored in the session.
+//
+// An application must supply serialization functions, which determine how the
+// client object is serialized into the session. Typically this will be a
+// simple matter of serializing the client's ID, and deserializing by finding
+// the client by ID from the database.
+
+server.serializeClient((client, done) => done(null, client.id))
+
+server.deserializeClient((id, done) => {
+  db.clients.findById(id, (error, client) => {
+    if (error) return done(error)
+    return done(null, client)
+  })
+})

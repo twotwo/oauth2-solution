@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx cross-env PORT=8080 CONTEXT=/oauth2 DEBUG=srv:* nodemon ./bin/www",
+    "dev": "npx cross-env PORT=8080 CONTEXT=/oauth2 DEBUG=srv:*,db:* nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {

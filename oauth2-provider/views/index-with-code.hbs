@@ -30,7 +30,7 @@ grant_type=authorization_code
     {{!-- <button id="submit" class="pure-button pure-button-primary" type="button">Submit Post</button> --}}
     <form action="{{context}}/oauth/token" method="POST">
       <input type="hidden" name="code" value="{{query.code}}">
-      <input type="hidden" name="redirect_uri" value="https://localhost:8080{{context}}">
+      <input type="hidden" name="redirect_uri" value="http://localhost:8080{{context}}">
       <input type="hidden" name="client_id" value="abc123">
       <input type="hidden" name="client_secret" value="ssh-secret">
       <input type="hidden" name="grant_type" value="authorization_code">
