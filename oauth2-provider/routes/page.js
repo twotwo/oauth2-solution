@@ -4,9 +4,18 @@ const passport = require("passport")
 const login = require("connect-ensure-login")
 const debug = require("debug")("srv:page")
 const context = process.env.CONTEXT || ""
+const port = process.env.PORT || "3000"
 
 module.exports.index = (req, res) => {
   // res.send("OAuth 2.0 Server")
+  res.locals.server_url =
+    req.protocol +
+    "://" +
+    req.host +
+    (port === 80 || port === 443 ? "" : ":" + port) +
+    context
+
+  // debug("server_url=%s", res.locals.server_url)
   debug("token = %s", req.query.access_token)
   debug("uri = %O", req.originalUrl)
   if (req.query.code) {

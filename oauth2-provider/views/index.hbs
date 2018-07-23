@@ -17,10 +17,10 @@
   </h2>
   The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential
   clients. Click the link below to begin the grant type.
-  <a id="authcode" href="{{context}}/dialog/authorize?redirect_uri=http://localhost:8080{{context}}&response_type=code&client_id=abc123&scope=offline_access">
+  <a id="authcode" href="{{context}}/dialog/authorize?redirect_uri={{server_url}}&response_type=code&client_id=abc123&scope=offline_access">
     <pre>
-  <span class="hostname">http://localhost:8080{{context}}</span>/dialog/authorize?
-  redirect_uri=<span class="hostname">http://localhost:8080{{context}}</span>&
+  <span class="hostname">{{server_url}}</span>/dialog/authorize?
+  redirect_uri=<span class="hostname">{{server_url}}</span>&
   response_type=code&
   client_id=abc123&
   scope=offline_access
@@ -36,10 +36,10 @@
     </h2>
     The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized
     for public clients known to operate a particular redirection URI. Click the link below to begin the grant type.
-    <a id="implicit" href="{{context}}/dialog/authorize?redirect_uri=http://localhost:8080{{context}}&response_type=token&client_id=abc123">
+    <a id="implicit" href="{{context}}/dialog/authorize?redirect_uri={{server_url}}&response_type=token&client_id=abc123">
       <pre>
   <span class="hostname">{{context}}</span>/dialog/authorize?
-  redirect_uri=<span class="hostname">http://localhost:8080{{context}}</span>&
+  redirect_uri=<span class="hostname">{{server_url}}</span>&
   response_type=token&
   client_id=abc123
             </pre>
