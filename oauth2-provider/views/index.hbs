@@ -10,10 +10,7 @@
     <a href="{{context}}/account">Account</a>
   </p>
 
-
-
   <!-- Authorization Code grant -->
-
   <h2>
     <a href="http://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code</a>
     <br/>
@@ -27,7 +24,7 @@
   response_type=code&
   client_id=abc123&
   scope=offline_access
-                </pre>
+    </pre>
   </a>
 
   <!-- Implicit grant -->
@@ -39,7 +36,7 @@
     </h2>
     The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized
     for public clients known to operate a particular redirection URI. Click the link below to begin the grant type.
-    <a id="implicit" href="">
+    <a id="implicit" href="{{context}}/dialog/authorize?redirect_uri=http://localhost:8080{{context}}&response_type=token&client_id=abc123">
       <pre>
   <span class="hostname">{{context}}</span>/dialog/authorize?
   redirect_uri=<span class="hostname">http://localhost:8080{{context}}</span>&

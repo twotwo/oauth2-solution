@@ -3,6 +3,7 @@
 const oauth2orize = require("oauth2orize")
 const passport = require("passport")
 const login = require("connect-ensure-login")
+const debug = require("debug")("srv:oauth2")
 const db = require("../db")
 const utils = require("../utils")
 

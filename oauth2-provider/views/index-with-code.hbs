@@ -1,0 +1,74 @@
+<!-- Style sheets -->
+<link rel="stylesheet" type="text/css" href="{{context}}/stylesheets/index-modules.css">
+<script type="text/javascript" src="{{context}}/javascripts/jquery.min.js"></script>
+
+<!-- Authorization code section -->
+<div id="authCode">
+  <h1>
+    Authorization Code
+  </h1>
+
+  <p>
+    Look at your URL and you will see that you have a authorization code of
+  </p>
+  <pre><span class="code">{{query.code}}</span></pre>
+  <p>
+    This isn't your access token, but you can exchange it for an access token by clicking the Submit Post button. Bring up your
+    browser's debugger tools and examine the network tab as you click the Submit Post button.
+  </p>
+  <pre>POST oauth/token HTTP/1.1
+Host: <span class="hostname">https://localhost:8080{{context}}</span>
+Content-Type: application/x-www-form-urlencoded
+
+code=<span class="code">{{query.code}}</span>&
+redirect_uri=<span class="hostname">https://localhost:8080{{context}}</span>&
+client_id=abc123&
+client_secret=ssh-secret&
+grant_type=authorization_code
+        </pre>
+  <p>
+    {{!-- <button id="submit" class="pure-button pure-button-primary" type="button">Submit Post</button> --}}
+    <form action="{{context}}/oauth/token" method="POST">
+      <input type="hidden" name="code" value="{{query.code}}">
+      <input type="hidden" name="redirect_uri" value="https://localhost:8080{{context}}">
+      <input type="hidden" name="client_id" value="abc123">
+      <input type="hidden" name="client_secret" value="ssh-secret">
+      <input type="hidden" name="grant_type" value="authorization_code">
+      <input type="submit" value="Submit Post">
+    </form>
+  </p>
+</div>
+
+<!-- Shown after the user clicks and gets an access token -->
+<div id="accessTokenDiv" style="display: none;">
+  <h1>
+    Access Token
+  </h1>
+
+  <p>
+    Underneath your browser's network tab you will see the following response with your access token, refresh token, expiration
+    time, and token type
+  </p>
+  <pre><span id="fullResult"></span></pre>
+  <p>
+    You can use your access token to call an endpoint such as a user info endpoint. To do this, set the Authorization Bearer
+    to have your access token. Press the Call API EndPoint button and look at your network tab.
+  </p>
+  <pre>GET /api/userinfo HTTP/1.1
+Host: <span class="hostname">https://localhost:3000</span>
+Authorization: Bearer <span id="access_token"></span>
+        </pre>
+  <button id="apiCall" class="pure-button pure-button-primary" type="button">Call API EndPoint</button>
+</div>
+
+<!-- Shown after the user clicks "Call API EndPoint" button -->
+<div id="apiCallDiv" style="display: none;">
+  <h1>
+    User Information
+  </h1>
+
+  <p>
+    Underneath your brower's network tab you will see the following JSON response from a successful API endpoint call.
+  </p>
+  <pre><span id="userInfo"></span></pre>
+</div>
