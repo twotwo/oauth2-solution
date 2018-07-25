@@ -1,6 +1,6 @@
 {
   "name": "oauth2-provider",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "npx cross-env PORT=8080 CONTEXT=/oauth2 DEBUG=srv:*,db:* nodemon ./bin/www",
