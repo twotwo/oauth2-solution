@@ -1,0 +1,24 @@
+{
+  "name": "simple-oauth2-express",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx cross-env PORT=4000 CONTEXT=/express DEBUG=srv:* nodemon ./bin/www",
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "express-session": "^1.15.6",
+    "hbs": "~4.0.1",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "simple-oauth2": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "validate-commit-msg": "^2.14.0"
+  }
+}
